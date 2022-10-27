@@ -10,20 +10,18 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region     = var.aws_region
+  access_key = var.access_key_id
+  secret_key = var.secret_access_key
 }
 
 resource "aws_s3_bucket" "tf-test-learn-bucket" {
-  bucket = "tf-test-learn-bucket"
+  bucket = var.bucket_name
 
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-    ManagedBy   = "Terraform"
-  }
+  tags = var.bucket_tags
 }
 
-resource "aws_s3_bucket_acl" "example" {
+resource "aws_s3_bucket_acl" "tf-test-learn-bucket-acl" {
   bucket = aws_s3_bucket.tf-test-learn-bucket.id
-  acl    = "private"
+  acl    = var.bucket_acl
 }
